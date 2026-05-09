@@ -1,0 +1,12 @@
+{
+  "name": "Splitwise Pro Clone",
+  "description": "A high-performance expense sharing app with smart splits, receipt scanning, and debt simplification.",
+  "requestFramePermissions": [
+    "camera"
+  ],
+  "majorCapabilities": [
+    "Firebase Authentication",
+    "Cloud Firestore",
+    "Simulated receipt scanning"
+  ]
+}

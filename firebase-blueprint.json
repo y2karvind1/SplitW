@@ -1,0 +1,75 @@
+{
+  "entities": {
+    "User": {
+      "title": "User",
+      "description": "User profile information",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string" },
+        "displayName": { "type": "string" },
+        "email": { "type": "string", "format": "email" },
+        "photoURL": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["uid", "displayName", "email"]
+    },
+    "Group": {
+      "title": "Group",
+      "description": "A group for sharing expenses",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "description": { "type": "string" },
+        "avatar": { "type": "string" },
+        "createdBy": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "memberIds": { "type": "array", "items": { "type": "string" } }
+      },
+      "required": ["id", "name", "createdBy", "createdAt", "memberIds"]
+    },
+    "GroupMember": {
+      "title": "Group Member",
+      "description": "Information about a member within a group",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string" },
+        "displayName": { "type": "string" },
+        "email": { "type": "string" },
+        "photoURL": { "type": "string" },
+        "joinedAt": { "type": "string", "format": "date-time" },
+        "role": { "type": "string", "enum": ["owner", "admin", "member"] }
+      },
+      "required": ["uid", "joinedAt"]
+    },
+    "Expense": {
+      "title": "Expense",
+      "description": "An expense recorded in a group",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "groupId": { "type": "string" },
+        "description": { "type": "string" },
+        "amount": { "type": "number" },
+        "currency": { "type": "string" },
+        "date": { "type": "string", "format": "date-time" },
+        "paidBy": { "type": "string" },
+        "splitType": { "type": "string", "enum": ["equal", "exact", "percent", "shares"] },
+        "splits": { 
+          "type": "object",
+          "description": "Map of userId to split detail (amount, share, or percent)"
+        },
+        "receiptUrl": { "type": "string" },
+        "category": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "groupId", "description", "amount", "paidBy", "splitType", "splits", "createdAt"]
+    }
+  },
+  "firestore": {
+    "users": { "schema": "User", "description": "Global user profiles" },
+    "groups": { "schema": "Group", "description": "Shared expense groups" },
+    "groups/{groupId}/members": { "schema": "GroupMember", "description": "Members of a specific group" },
+    "groups/{groupId}/expenses": { "schema": "Expense", "description": "Expenses within a group" }
+  }
+}
